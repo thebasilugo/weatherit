@@ -1,0 +1,17 @@
+// updates
+// 1. Added a checkbox to display humidity and wind speed.
+// 2. geolocation
+// 3. meaning of the weather data & codes (02d)
+// 4. save to localStorage
+// 5. recent searches & clear
+// 6. Weather Forecast: Instead of just showing the current weather, show a forecast for the next few days. You could even make it interactive, allowing users to click on a day to get more details.
+// 7. Weather Maps: Integrate a map that shows weather patterns like precipitation, clouds, temperature, etc.
+// 8. Weather Alerts: Show any weather alerts or warnings for the selected location.
+// 9. Detailed Weather Information: Provide more detailed weather information, such as humidity, wind speed, UV index, visibility, etc.
+// 10. Dark Mode: Implement a dark mode for users who prefer a darker color scheme.
+// 11. Local Time: Display the local time for the selected location.
+// 12. Historical Weather Data: Show historical weather data for the selected location.
+// 13. Favorites: Allow users to save their favorite locations to quickly check the weather.
+// 14. Weather-Dependent Background or Themes: Change the background or theme of the app depending on the current weather (e.g., sunny, cloudy, rainy).
+// 15. Search Suggestions: As the user types in the search box, show suggestions of city names.
+// 16. Multilingual Support: Allow users to view the app in different languages.

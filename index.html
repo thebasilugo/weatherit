@@ -34,34 +34,58 @@
         animation: fadeIn 0.9s ease-in-out;
       }
 
-      @media screen and (max-width: 600px) {
+      body {
+        overflow: hidden;
+      }
+
+      em {
+        font-weight: 700;
+        text-transform: capitalize;
+      }
+
+      #checkbox-container {
+        position: absolute;
+        top: 50%;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      #display-weather-info {
+        position: absolute;
+        top: 60%;
+      }
+
+      @media screen and (max-width: 767px) {
         .custom-btn {
           overflow: visible !important;
           white-space: normal !important;
         }
 
-        #submit-btn::after {
-          content: " Search";
+        #submit-btn:hover::after {
+          content: "Search";
+          margin-right: 16px;
         }
 
-        #location-btn::after {
-          content: " Get Location";
+        #location-btn:hover::after {
+          content: "Location";
         }
       }
     </style>
   </head>
   <body
-    class="fade-in bg-blue-300 min-h-screen flex flex-col items-center justify-center"
+    class="fade-in bg-blue-300 min-h-screen flex flex-col items-center justify-center -mt-24"
   >
     <h1 class="text-4xl mb-8 font-bold">WeatherIt!</h1>
-    <div class="sm:flex-col flex items-center flex-col md:flex-row">
+    <div class="flex-col flex items-center md:flex-row">
       <input
         type="text"
         id="city-input"
         placeholder="Enter city name"
-        class="px-4 py-2 font-bold transform translate-y-2 border border-gray-300 rounded-md shadow-sm mb-4 sm:mb-4 sm:mr-4"
+        class="px-4 py-2 font-bold transform translate-y-2 border border-gray-300 rounded-md shadow-sm mb-4 sm:mb-4 sm:mr-4 text-xl"
       />
-      <div class="flex">
+      <div class="button-container flex">
         <button
           id="submit-btn"
           class="px-2 py-2 my-2 bg-gray-500 transform hover:bg-gray-700 text-white rounded-full shadow-sm transition duration-50 ease-in-out"
@@ -76,7 +100,27 @@
         </button>
       </div>
     </div>
-    <div id="weather-container" class="mt-8 text-2xl"></div>
+    <div
+      id="checkbox-container"
+      class="flex flex-col py-4 hidden sm:text-lg md:text-xl"
+    >
+      <label>
+        <input
+          type="checkbox"
+          id="humidity-checkbox"
+          onchange="fetchWeatherData()"
+        />&ThickSpace;Show Humidity
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          id="wind-checkbox"
+          onchange="fetchWeatherData()"
+        />&ThickSpace;Show Wind Speed
+      </label>
+    </div>
+
+    <div id="display-weather-info" class="mt-8 text-2xl"></div>
     <script src="main.js"></script>
   </body>
 </html>
