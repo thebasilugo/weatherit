@@ -13,11 +13,15 @@ const showCheckboxContainer = () => {
 };
 
 submitBtn.addEventListener("click", () => {
-  showCheckboxContainer();
-  fetchWeatherData(
-    submitBtnCustom,
-    document.querySelector("#city-input").value
-  );
+  if (cityName === "") {
+    weatherContainer.innerHTML = "please type in a city first";
+  } else {
+    showCheckboxContainer();
+    fetchWeatherData(
+      submitBtnCustom,
+      document.querySelector("#city-input").value
+    );
+  }
 });
 
 const fetchWeatherData = (custom, cityName) => {
