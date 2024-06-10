@@ -45,7 +45,7 @@
 
       #checkbox-container {
         position: absolute;
-        top: 50%;
+        top: 250px;
       }
 
       .hidden {
@@ -54,7 +54,7 @@
 
       #display-weather-info {
         position: absolute;
-        top: 60%;
+        top: 320px;
       }
 
       @media screen and (max-width: 767px) {
@@ -71,11 +71,15 @@
         #location-btn:hover::after {
           content: "Location";
         }
+
+        #checkbox-container {
+          top: 265px;
+        }
       }
     </style>
   </head>
   <body
-    class="fade-in bg-blue-300 min-h-screen flex flex-col items-center justify-center -mt-24"
+    class="fade-in bg-blue-300 min-h-screen flex flex-col items-center justify-center -mt-36"
   >
     <h1 class="text-4xl mb-8 font-bold">WeatherIt!</h1>
     <div class="flex-col flex items-center md:flex-row">
