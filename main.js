@@ -12,9 +12,11 @@ const showCheckboxContainer = () => {
   checkboxContainer.classList.remove("hidden");
 };
 
+submitBtn.style.display = "none"; // hide the submit button until fixed (testing)
+
 submitBtn.addEventListener("click", () => {
   if (cityName === "") {
-    weatherContainer.innerHTML = "please type in a city first";
+    geolocation();
   } else {
     showCheckboxContainer();
     fetchWeatherData(
@@ -61,22 +63,25 @@ document
   });
 
 // geolocation
-locationBtn.addEventListener("click", function () {
-  let cityName = "your location";
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      function (position) {
-        let lat = position.coords.latitude;
-        let lon = position.coords.longitude;
-        const locationBtnCustom = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=997948706e57a1379dfe78808a547951`;
-        fetchWeatherData(locationBtnCustom, cityName);
-        showCheckboxContainer();
-      },
-      function (error) {
-        console.error("Error occurred. Code: " + error.code);
-      }
-    );
-  } else {
-    console.log("Geolocation is not supported by this browser.");
-  }
-});
+locationBtn.addEventListener(
+  "click",
+  (geolocation = () => {
+    let cityName = "your location";
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          let lat = position.coords.latitude;
+          let lon = position.coords.longitude;
+          const locationBtnCustom = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=997948706e57a1379dfe78808a547951`;
+          fetchWeatherData(locationBtnCustom, cityName);
+          showCheckboxContainer();
+        },
+        function (error) {
+          console.error("Error occurred. Code: " + error.code);
+        }
+      );
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+    }
+  })
+);
