@@ -1,38 +1,31 @@
-// html fetch
+// Selecting HTML elements
 const cityInput = document.querySelector("#city-input");
-let cityName = cityInput.value;
 const targetIcon = document.querySelector("#target-icon");
 const weatherContainer = document.querySelector("#display-weather-info");
 const checkboxContainer = document.querySelector("#checkbox-container");
 const humidityCheckbox = document.querySelector("#humidity-checkbox");
 const windCheckbox = document.querySelector("#wind-checkbox");
-// let checkboxCustom;
 const searchIcon = document.querySelector(".search-icon");
 const geoIcon = document.querySelector(".geo-icon");
-let iconCustom;
 
+// Icon class names
 const searchInfo = {
-  // info for search
   searchIconClassName: "search icon transform translate-x-0.5 search-icon",
 };
-
 const geoInfo = {
-  // info for geo
   geoIconClassName:
     "map marker alternate icon transform translate-x-0.5 geo-icon",
 };
+const geoIconClassName = geoInfo.geoIconClassName;
+const searchIconClassName = searchInfo.searchIconClassName;
 
-// assigning the icon classes to variables
-const geoIconClassName =
-  "map marker alternate icon transform translate-x-0.5 geo-icon";
-const searchIconClassName = "search icon transform translate-x-0.5 search-icon";
-
-// to make sure that even if there's something in the textbox, the icon changes
+// On window load, clear city input and check if it's empty
 window.onload = () => {
   cityInput.value = "";
   checkIfCityInputIsEmpty(cityInput, targetIcon);
 };
 
+// Function to check if city input is empty and change icon accordingly
 const checkIfCityInputIsEmpty = (input, icon) => {
   if (input.value.trim() === "") {
     icon.className = geoInfo.geoIconClassName;
@@ -43,56 +36,43 @@ const checkIfCityInputIsEmpty = (input, icon) => {
   }
 };
 
+// Event listener to check if city input is empty on input
 cityInput.addEventListener("input", () =>
   checkIfCityInputIsEmpty(cityInput, targetIcon)
 );
 
-// demarcation
-
+// Function to show checkbox container
 const showCheckboxContainer = () => {
   checkboxContainer.classList.remove("hidden");
 };
 
-targetIcon.addEventListener(
-  "click",
-  (buttonClickFunction = () => {
-    showCheckboxContainer();
-    if (targetIcon.className === geoIconClassName) {
-      getWeatherByGeolocation();
-    } else if (targetIcon.className === searchIconClassName) {
-      console.log("search icon clicked");
-      searchForWeather();
-    }
-  })
-);
+// Event listener for click on target icon
+targetIcon.addEventListener("click", () => {
+  showCheckboxContainer();
+  if (targetIcon.className === geoIconClassName) {
+    getWeatherByGeolocation();
+  } else if (targetIcon.className === searchIconClassName) {
+    searchForWeather();
+  }
+});
 
-// searchIcon.style.display = "none"; // hide the submit button until fixed (testing)
-
-// searchIcon.addEventListener("click", () => {
-//   showCheckboxContainer();
-//   fetchWeatherData(
-//     searchIconCustom,
-//     document.querySelector("#city-input").value
-//   );
-// });
-
+// Function to update weather info based on checkbox selection
 const updateCheckboxWeatherInfo = () => {
-  if (document.querySelector("#humidity-checkbox").checked) {
+  if (humidityCheckbox.checked) {
     weatherInfo += "Humidity: " + data.main.humidity + "%<br/>";
   }
-
-  if (document.querySelector("#wind-checkbox").checked) {
+  if (windCheckbox.checked) {
     weatherInfo += "Wind Speed: " + data.wind.speed + " m/s<br/>";
   }
 };
 
-humidityCheckbox.addEventListener("change", () => updateCheckboxWeatherInfo);
-windCheckbox.addEventListener("change", () => updateCheckboxWeatherInfo);
+// Event listeners for change in checkbox selection
+humidityCheckbox.addEventListener("change", updateCheckboxWeatherInfo);
+windCheckbox.addEventListener("change", updateCheckboxWeatherInfo);
 
+// Function to search for weather of a city
 const searchForWeather = () => {
-  // Get the city name from the input field
   const cityName = cityInput.value;
-
   fetch(
     `http://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=997948706e57a1379dfe78808a547951`
   )
@@ -104,47 +84,39 @@ const searchForWeather = () => {
       let weatherInfo = weatherContainer.innerHTML;
       updateCheckboxWeatherInfo();
       weatherContainer.innerHTML = weatherInfo;
-      console.log(data);
     })
     .catch((error) => console.error("Error:", error));
 };
 
+// Function to fetch weather data
 const fetchWeatherData = (custom, cityName) => {
-  iconCustom ==
-    `http://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=997948706e57a1379dfe78808a547951`;
-  fetch(iconCustom)
+  const url = `http://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=997948706e57a1379dfe78808a547951`;
+  fetch(url)
     .then((response) => response.json())
     .then((data) => {
       weatherContainer.innerHTML = `In <em> ${cityName} </em>, <br/> Temperature is ${Math.round(
         data.main.temp - 273.15
       )}°C.<br/>`;
       let weatherInfo = weatherContainer.innerHTML;
-
-      if (document.querySelector("#humidity-checkbox").checked) {
+      if (humidityCheckbox.checked) {
         weatherInfo += "Humidity: " + data.main.humidity + "%<br/>";
       }
-
-      if (document.querySelector("#wind-checkbox").checked) {
+      if (windCheckbox.checked) {
         weatherInfo += "Wind Speed: " + data.wind.speed + " m/s<br/>";
       }
-
       weatherContainer.innerHTML = weatherInfo;
-      console.log(data);
     })
     .catch((error) => console.error("Error:", error));
 };
 
-// document
-//   .querySelector("#submit-btn")
-//   .addEventListener("click", fetchWeatherData);
-
+// Event listener for Enter key press in city input
 cityInput.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
     buttonClickFunction();
   }
 });
 
-// geolocation
+// Function to get weather by geolocation
 const getWeatherByGeolocation = () => {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
@@ -152,14 +124,12 @@ const getWeatherByGeolocation = () => {
         let lat = position.coords.latitude;
         let lon = position.coords.longitude;
         let url = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=997948706e57a1379dfe78808a547951`;
-
         fetch(url)
           .then((response) => response.json())
           .then((data) => {
             weatherContainer.innerHTML = `In <em>your location</em>, <br/> Temperature is ${Math.round(
               data.main.temp - 273.15
             )}°C.<br/>`;
-            console.log(data);
           })
           .catch((error) => console.error("Error:", error));
       },
