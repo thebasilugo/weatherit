@@ -1,26 +1,49 @@
 // html fetch
-let cityName = document.querySelector("#city-input").value;
+const cityInput = document.querySelector("#city-input");
+let cityName = cityInput.value;
+const geoIcon = document.querySelector(".geo-icon");
+const searchIcon = document.querySelector(".search-icon");
+const targetIcon = document.querySelector("#target-icon");
 const weatherContainer = document.querySelector("#display-weather-info");
 const checkboxContainer = document.querySelector("#checkbox-container");
-const submitBtn = document.querySelector("#submit-btn");
-const locationBtn = document.querySelector("#location-btn");
-const submitBtnCustom = `http://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=997948706e57a1379dfe78808a547951`;
-// const locationBtnCustom = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=997948706e57a1379dfe78808a547951`;
+// const searchIcon = document.querySelector("#submit-btn");
+// const geoIcon = document.querySelector("#location-btn");
+const searchIconCustom = `http://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=997948706e57a1379dfe78808a547951`;
+// const geoIconCustom = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=997948706e57a1379dfe78808a547951`;
 // openweathermap api fetch function
+
+// assigning the icon classes to variables
+const geoIconClassName =
+  "map marker alternate icon transform translate-x-0.5 geo-icon";
+const searchIconClassName = "search icon transform translate-x-0.5 search-icon";
+
+const checkIfCityInputIsEmpty = (input, icon) => {
+  if (input.value.trim() === "") {
+    icon.className = geoIconClassName;
+  } else {
+    icon.className = searchIconClassName;
+  }
+};
+
+cityInput.addEventListener("input", () =>
+  checkIfCityInputIsEmpty(cityInput, targetIcon)
+);
+
+// demarcation
 
 const showCheckboxContainer = () => {
   checkboxContainer.classList.remove("hidden");
 };
 
-submitBtn.style.display = "none"; // hide the submit button until fixed (testing)
+searchIcon.style.display = "none"; // hide the submit button until fixed (testing)
 
-submitBtn.addEventListener("click", () => {
+searchIcon.addEventListener("click", () => {
   if (cityName === "") {
-    geolocation();
+    // geolocation();
   } else {
     showCheckboxContainer();
     fetchWeatherData(
-      submitBtnCustom,
+      searchIconCustom,
       document.querySelector("#city-input").value
     );
   }
@@ -63,7 +86,7 @@ document
   });
 
 // geolocation
-locationBtn.addEventListener(
+geoIcon.addEventListener(
   "click",
   (geolocation = () => {
     let cityName = "your location";
@@ -72,8 +95,8 @@ locationBtn.addEventListener(
         function (position) {
           let lat = position.coords.latitude;
           let lon = position.coords.longitude;
-          const locationBtnCustom = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=997948706e57a1379dfe78808a547951`;
-          fetchWeatherData(locationBtnCustom, cityName);
+          const geoIconCustom = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=997948706e57a1379dfe78808a547951`;
+          fetchWeatherData(geoIconCustom, cityName);
           showCheckboxContainer();
         },
         function (error) {
