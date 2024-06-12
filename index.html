@@ -50,6 +50,24 @@
         text-transform: capitalize;
       }
 
+      #main-btn,
+      #location-btn,
+      #search-btn {
+        transition: none;
+      }
+
+      #main-btn:hover,
+      #location-btn:hover,
+      #search-btn:hover {
+        opacity: 0.8;
+      }
+
+      #main-btn:active,
+      #location-btn:active,
+      #search-btn:active {
+        opacity: 1;
+      }
+
       #checkbox-container {
         position: absolute;
         top: 250px;
@@ -65,18 +83,25 @@
       }
 
       @media screen and (max-width: 767px) {
-        .custom-btn {
+        #location-btn {
           overflow: visible !important;
           white-space: normal !important;
         }
 
-        #submit-btn:hover::after {
-          content: "Search";
-          margin-right: 16px;
-        }
-
         #location-btn:hover::after {
           content: "Location";
+          display: inline-block;
+          margin-left: 10px;
+          position: absolute;
+          padding: 0 5px;
+        }
+
+        #search-btn:hover::after {
+          content: "Search";
+          display: inline-block;
+          margin-left: 10px;
+          position: absolute;
+          padding: 0 5px;
         }
 
         #checkbox-container {
@@ -98,18 +123,18 @@
       />
       <div class="button-container flex">
         <!-- <button
-          id="submit-btn"
+          id="search-btn"
           class="px-2 py-2 my-2 bg-gray-500 transform hover:bg-gray-700 text-white rounded-full shadow-sm transition duration-50 ease-in-out"
         >
           <i class="search icon transform translate-x-0.5 target-icon"></i>
         </button> -->
         <button
-          id="location-btn"
-          class="px-2 py-2 mx-2 my-2 bg-gray-500 transform hover:bg-gray-700 text-white rounded-full shadow-sm transition duration-50 ease-in-out"
+          id="main-btn"
+          class="p-2 m-2 bg-gray-500 transform hover:bg-gray-700 text-white rounded-full shadow-sm transition duration-50 ease-in-out"
         >
           <i
             id="target-icon"
-            class="map marker alternate icon transform translate-x-0.5"
+            class="geo-icon map marker alternate icon transform translate-x-0.5"
           ></i>
         </button>
       </div>
@@ -118,7 +143,7 @@
       id="checkbox-container"
       class="flex flex-col py-4 hidden sm:text-lg md:text-xl"
     >
-      <label>
+      <!-- <label>
         <input
           type="checkbox"
           id="humidity-checkbox"
@@ -131,6 +156,13 @@
           id="wind-checkbox"
           onchange="fetchWeatherData()"
         />&ThickSpace;Show Wind Speed
+      </label> -->
+      <label>
+        <input type="checkbox" id="humidity-checkbox" />&ThickSpace;Show
+        Humidity
+      </label>
+      <label>
+        <input type="checkbox" id="wind-checkbox" />&ThickSpace;Show Wind Speed
       </label>
     </div>
 
