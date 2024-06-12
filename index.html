@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Weather App</title>
+    <title>WeatherIt</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- semantic ui cdn -->
@@ -97,17 +97,20 @@
         class="px-4 py-2 font-bold transform translate-y-2 border border-gray-300 rounded-md shadow-sm mb-4 sm:mb-4 sm:mr-4 text-xl"
       />
       <div class="button-container flex">
-        <button
+        <!-- <button
           id="submit-btn"
           class="px-2 py-2 my-2 bg-gray-500 transform hover:bg-gray-700 text-white rounded-full shadow-sm transition duration-50 ease-in-out"
         >
-          <i class="search icon transform translate-x-0.5"></i>
-        </button>
+          <i class="search icon transform translate-x-0.5 target-icon"></i>
+        </button> -->
         <button
           id="location-btn"
           class="px-2 py-2 mx-2 my-2 bg-gray-500 transform hover:bg-gray-700 text-white rounded-full shadow-sm transition duration-50 ease-in-out"
         >
-          <i class="map marker alternate icon transform translate-x-0.5"></i>
+          <i
+            id="target-icon"
+            class="map marker alternate icon transform translate-x-0.5"
+          ></i>
         </button>
       </div>
     </div>
