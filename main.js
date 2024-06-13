@@ -7,6 +7,7 @@ const humidityCheckbox = document.querySelector("#humidity-checkbox");
 const windCheckbox = document.querySelector("#wind-checkbox");
 const searchIcon = document.querySelector(".search-icon");
 const geoIcon = document.querySelector(".geo-icon");
+const datalist = document.querySelector("#cities");
 
 // Icon class names
 const searchInfo = {
@@ -36,6 +37,126 @@ const checkIfCityInputIsEmpty = (input, icon) => {
   }
 };
 
+// List of names of popular cities to aid users
+const cityNames = [
+  "Tokyo",
+  "Delhi",
+  "Shanghai",
+  "Sao Paulo",
+  "Mumbai",
+  "Beijing",
+  "Cairo",
+  "Dhaka",
+  "Mexico City",
+  "Osaka",
+  "Karachi",
+  "Chongqing",
+  "Istanbul",
+  "Buenos Aires",
+  "Kolkata",
+  "Lagos",
+  "Rio de Janeiro",
+  "Tianjin",
+  "Kinshasa",
+  "Guangzhou",
+  "Los Angeles",
+  "Moscow",
+  "Shenzhen",
+  "Lahore",
+  "Bangalore",
+  "Jakarta",
+  "Chennai",
+  "Lima",
+  "New York",
+  "Bangkok",
+  "Hyderabad",
+  "Chengdu",
+  "Nanjing",
+  "Wuhan",
+  "Ho Chi Minh City",
+  "Hangzhou",
+  "Hong Kong",
+  "Ahmedabad",
+  "Kuala Lumpur",
+  "Pune",
+  "Riyadh",
+  "Santiago",
+  "Alexandria",
+  "Singapore",
+  "Johannesburg",
+  "Shijiazhuang",
+  "Seoul",
+  "Hanoi",
+  "Baghdad",
+  "Ankara",
+  "Toronto",
+  "Yangon",
+  "Qingdao",
+  "Rome",
+  "Houston",
+  "Bogota",
+  "Bangladesh",
+  "Changsha",
+  "Rangoon",
+  "Phoenix",
+  "Philadelphia",
+  "Nairobi",
+  "Hefei",
+  "Suzhou",
+  "Harbin",
+  "Dar es Salaam",
+  "Shantou",
+  "Dalian",
+  "Zhengzhou",
+  "Yangzhou",
+  "Jinan",
+  "Algiers",
+  "Chengde",
+  "Kabul",
+  "Havana",
+  "Casablanca",
+  "Athens",
+  "Cape Town",
+  "Kunming",
+  "Taibei",
+  "Jeddah",
+  "Shenyang",
+  "Surat",
+  "Abidjan",
+  "Jaipur",
+  "Guadalajara",
+  "Incheon",
+  "Baku",
+  "Pune",
+  "Sapporo",
+  "Tashkent",
+  "Izmir",
+  "Xiamen",
+  "Rawalpindi",
+  "Durban",
+  "Hyderabad",
+  "Kanpur",
+  "Nanjing",
+  "Addis Ababa",
+  "Nanning",
+  "Lucknow",
+  "Patna",
+  "Guayaquil",
+  "Salvador",
+  "Vadodara",
+  "Manila",
+  "Johor Bahru",
+  "San Antonio",
+  "Indore",
+  "Guatemala City",
+];
+
+cityNames.forEach((city) => {
+  let option = document.createElement("option");
+  option.value = city;
+  datalist.appendChild(option);
+});
+
 // Event listener to check if city input is empty on input
 cityInput.addEventListener("input", () =>
   checkIfCityInputIsEmpty(cityInput, targetIcon)
@@ -47,22 +168,40 @@ const showCheckboxContainer = () => {
 };
 
 // Event listener for click on target icon
-targetIcon.addEventListener("click", () => {
-  showCheckboxContainer();
+targetIcon.addEventListener(
+  "click",
+  (iconCheckFn = () => {
+    showCheckboxContainer();
+    if (targetIcon.className === geoIconClassName) {
+      getWeatherByGeolocation();
+    } else if (targetIcon.className === searchIconClassName) {
+      searchForWeather();
+    }
+  })
+);
+
+// Function to update weather info based on checkbox selection
+const updateCheckboxWeatherInfo = (data) => {
+  let weatherInfo = "";
+  if (data && humidityCheckbox.checked) {
+    weatherInfo += "Humidity: " + data.main.humidity + "%<br/>";
+  }
+  if (data && windCheckbox.checked) {
+    weatherInfo += "Wind Speed: " + data.wind.speed + " m/s<br/>";
+  }
+  return weatherInfo;
+};
+
+// Event listeners for change in checkbox selection
+humidityCheckbox.addEventListener("change", () => fetchAndUpdateWeatherInfo());
+windCheckbox.addEventListener("change", () => fetchAndUpdateWeatherInfo());
+
+// Function to fetch weather data and update weather info
+const fetchAndUpdateWeatherInfo = () => {
   if (targetIcon.className === geoIconClassName) {
     getWeatherByGeolocation();
   } else if (targetIcon.className === searchIconClassName) {
     searchForWeather();
-  }
-});
-
-// Function to update weather info based on checkbox selection
-const updateCheckboxWeatherInfo = () => {
-  if (humidityCheckbox.checked) {
-    weatherInfo += "Humidity: " + data.main.humidity + "%<br/>";
-  }
-  if (windCheckbox.checked) {
-    weatherInfo += "Wind Speed: " + data.wind.speed + " m/s<br/>";
   }
 };
 
@@ -78,12 +217,14 @@ const searchForWeather = () => {
   )
     .then((response) => response.json())
     .then((data) => {
-      weatherContainer.innerHTML = `In <em> ${cityName} </em>, <br/> Temperature is ${Math.round(
-        data.main.temp - 273.15
-      )}°C.<br/>`;
-      let weatherInfo = weatherContainer.innerHTML;
-      updateCheckboxWeatherInfo();
-      weatherContainer.innerHTML = weatherInfo;
+      if (data) {
+        weatherContainer.innerHTML = `In <em> ${cityName} </em>, <br/> Temperature is ${Math.round(
+          data.main.temp - 273.15
+        )}°C.<br/>`;
+        weatherContainer.innerHTML += updateCheckboxWeatherInfo(data);
+      } else {
+        console.error("No data received from API");
+      }
     })
     .catch((error) => console.error("Error:", error));
 };
@@ -94,17 +235,14 @@ const fetchWeatherData = (custom, cityName) => {
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
-      weatherContainer.innerHTML = `In <em> ${cityName} </em>, <br/> Temperature is ${Math.round(
-        data.main.temp - 273.15
-      )}°C.<br/>`;
-      let weatherInfo = weatherContainer.innerHTML;
-      if (humidityCheckbox.checked) {
-        weatherInfo += "Humidity: " + data.main.humidity + "%<br/>";
+      if (data) {
+        weatherContainer.innerHTML = `In <em> ${cityName} </em>, <br/> Temperature is ${Math.round(
+          data.main.temp - 273.15
+        )}°C.<br/>`;
+        weatherContainer.innerHTML += updateCheckboxWeatherInfo(data);
+      } else {
+        console.error("No data received from API");
       }
-      if (windCheckbox.checked) {
-        weatherInfo += "Wind Speed: " + data.wind.speed + " m/s<br/>";
-      }
-      weatherContainer.innerHTML = weatherInfo;
     })
     .catch((error) => console.error("Error:", error));
 };
@@ -112,7 +250,8 @@ const fetchWeatherData = (custom, cityName) => {
 // Event listener for Enter key press in city input
 cityInput.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
-    buttonClickFunction();
+    showCheckboxContainer();
+    searchForWeather();
   }
 });
 
@@ -127,9 +266,14 @@ const getWeatherByGeolocation = () => {
         fetch(url)
           .then((response) => response.json())
           .then((data) => {
-            weatherContainer.innerHTML = `In <em>your location</em>, <br/> Temperature is ${Math.round(
-              data.main.temp - 273.15
-            )}°C.<br/>`;
+            if (data) {
+              weatherContainer.innerHTML = `In <em>your location</em>, <br/> Temperature is ${Math.round(
+                data.main.temp - 273.15
+              )}°C.<br/>`;
+              weatherContainer.innerHTML += updateCheckboxWeatherInfo(data);
+            } else {
+              console.error("No data received from API");
+            }
           })
           .catch((error) => console.error("Error:", error));
       },
