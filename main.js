@@ -229,25 +229,6 @@ const searchForWeather = () => {
     .catch((error) => console.error("Error:", error));
 };
 
-// Function to fetch weather data
-const fetchWeatherData = (custom, cityName) => {
-  const url = `http://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=997948706e57a1379dfe78808a547951`;
-  fetch(url)
-    .then((response) => response.json())
-    .then((data) => {
-      if (data) {
-        weatherContainer.innerHTML = `In <em> ${cityName} </em>, <br/> Temperature is ${Math.round(
-          data.main.temp - 273.15
-        )}°C.<br/>`;
-        weatherContainer.innerHTML += updateCheckboxWeatherInfo(data);
-      } else {
-        console.error("No data received from API");
-      }
-    })
-    .catch((error) => console.error("Error:", error));
-};
-
-// Event listener for Enter key press in city input
 cityInput.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
     showCheckboxContainer();
