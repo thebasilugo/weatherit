@@ -1,13 +1,15 @@
 // Selecting HTML elements
 const cityInput = document.querySelector("#city-input");
+const mainBtn = document.querySelector("#main-btn");
 const targetIcon = document.querySelector("#target-icon");
-const weatherContainer = document.querySelector("#display-weather-info");
-const checkboxContainer = document.querySelector("#checkbox-container");
-const humidityCheckbox = document.querySelector("#humidity-checkbox");
-const windCheckbox = document.querySelector("#wind-checkbox");
 const searchIcon = document.querySelector(".search-icon");
 const geoIcon = document.querySelector(".geo-icon");
 const datalist = document.querySelector("#cities");
+const checkboxContainer = document.querySelector("#checkbox-container");
+const humidityCheckbox = document.querySelector("#humidity-checkbox");
+const windCheckbox = document.querySelector("#wind-checkbox");
+
+const weatherContainer = document.querySelector("#display-weather-info");
 
 // Icon class names
 const searchInfo = {
@@ -179,6 +181,8 @@ targetIcon.addEventListener(
     }
   })
 );
+
+mainBtn.addEventListener("click", iconCheckFn);
 
 // Function to update weather info based on checkbox selection
 const updateCheckboxWeatherInfo = (data) => {
