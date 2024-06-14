@@ -15,3 +15,27 @@
 // 14. Weather-Dependent Background or Themes: Change the background or theme of the app depending on the current weather (e.g., sunny, cloudy, rainy).
 // 15. Search Suggestions: As the user types in the search box, show suggestions of city names.
 // 16. Multilingual Support: Allow users to view the app in different languages.
+
+
+# possible weather codes
+01d, 01n: Clear sky
+02d, 02n: Few clouds
+03d, 03n: Scattered clouds
+04d, 04n: Broken clouds
+09d, 09n: Shower rain
+10d, 10n: Rain
+11d, 11n: Thunderstorm
+13d, 13n: Snow
+50d, 50n: Mist
+
+The "02d" is a code for a specific weather icon provided by the OpenWeatherMap API.
+
+The code is made up of two parts: a number and a letter. The number represents the weather condition, and the letter represents the time of day.
+
+Here's what "02d" means:
+
+"02" stands for "few clouds". This is part of the broader category of "Clouds" in the OpenWeatherMap API's weather condition codes.
+
+"d" stands for "day". This means the icon is meant to be used during daytime hours. The other possible value is "n", which stands for "night".
+
+So, "02d" represents "few clouds during the day". The corresponding icon will show a sun with a few clouds, indicating partly cloudy weather during the day.
