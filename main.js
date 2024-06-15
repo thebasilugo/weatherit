@@ -9,7 +9,7 @@ const datalist = document.querySelector("#cities");
 const checkboxContainer = document.querySelector("#checkbox-container");
 const humidityCheckbox = document.querySelector("#humidity-checkbox");
 const windCheckbox = document.querySelector("#wind-checkbox");
-
+const btnMore = document.querySelector(".btn-more");
 const weatherContainer = document.querySelector("#display-weather-info");
 
 // Icon class names
@@ -34,10 +34,12 @@ const checkIfCityInputIsEmpty = (input, icon) => {
   if (input.value.trim() === "") {
     icon.className = geoInfo.geoIconClassName;
     icon.id = "location-btn";
+    btnMore.innerHTML = "location";
     hintEl.classList.remove("hidden");
   } else {
     icon.className = searchInfo.searchIconClassName;
     icon.id = "search-btn";
+    btnMore.innerHTML = "search";
     hintEl.classList.add("hidden");
   }
 };
