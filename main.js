@@ -217,7 +217,7 @@ windCheckbox.addEventListener("change", updateCheckboxWeatherInfo);
 const searchForWeather = () => {
   const cityName = cityInput.value;
   fetch(
-    `http://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=997948706e57a1379dfe78808a547951`
+    `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=997948706e57a1379dfe78808a547951`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -247,7 +247,7 @@ const getWeatherByGeolocation = () => {
       function (position) {
         let lat = position.coords.latitude;
         let lon = position.coords.longitude;
-        let url = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=997948706e57a1379dfe78808a547951`;
+        let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=997948706e57a1379dfe78808a547951`;
         fetch(url)
           .then((response) => response.json())
           .then((data) => {
