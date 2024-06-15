@@ -78,7 +78,7 @@
   >
     <div class="text-center">
       <h1 class="text-4xl mb-8 font-bold">WeatherIt!</h1>
-      <div class="flex-col flex items-center md:flex-row">
+      <div class="">
         <input
           type="text"
           id="city-input"
@@ -87,22 +87,21 @@
           list="cities"
         />
         <datalist id="cities"> </datalist>
-        <div class="button-container flex">
-          <button
-            id="main-btn"
-            class="p-2 m-2 bg-gray-500 transform hover:bg-gray-700 text-white rounded-full shadow-sm transition duration-10 ease-in-out"
-          >
-            <i
-              id="target-icon"
-              class="geo-icon map marker alternate icon transform translate-x-0.5"
-            ></i>
-          </button>
-        </div>
-        <span class="hint text-gray-600"
-          >fetching the weather of your location may not be possible, depending
-          on your <em>device permissions</em>.</span
+        <button
+          id="main-btn"
+          class="p-2 m-2 bg-gray-500 transform translate-y-1.5 hover:bg-gray-700 text-white rounded-full shadow-sm transition duration-10 ease-in-out inline-block"
         >
+          <i
+            id="target-icon"
+            class="geo-icon map marker alternate icon transform translate-x-0.5"
+          ></i>
+          <span class="btn-more inline sm:hidden"></span>
+        </button>
       </div>
+      <span class="hint py-8 text-gray-600 inline-block w-3/5"
+        >fetching the weather of your location may not be possible, depending on
+        your <em>device permissions</em>.</span
+      >
     </div>
     <div class="p-4">
       <div
