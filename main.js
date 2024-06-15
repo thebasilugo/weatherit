@@ -4,6 +4,7 @@ const mainBtn = document.querySelector("#main-btn");
 const targetIcon = document.querySelector("#target-icon");
 const searchIcon = document.querySelector(".search-icon");
 const geoIcon = document.querySelector(".geo-icon");
+const hintEl = document.querySelector(".hint");
 const datalist = document.querySelector("#cities");
 const checkboxContainer = document.querySelector("#checkbox-container");
 const humidityCheckbox = document.querySelector("#humidity-checkbox");
@@ -33,9 +34,11 @@ const checkIfCityInputIsEmpty = (input, icon) => {
   if (input.value.trim() === "") {
     icon.className = geoInfo.geoIconClassName;
     icon.id = "location-btn";
+    hintEl.classList.remove("hidden");
   } else {
     icon.className = searchInfo.searchIconClassName;
     icon.id = "search-btn";
+    hintEl.classList.add("hidden");
   }
 };
 
@@ -175,6 +178,7 @@ targetIcon.addEventListener(
   (iconCheckFn = () => {
     showCheckboxContainer();
     if (targetIcon.className === geoIconClassName) {
+      hintEl.classList.add("hidden");
       getWeatherByGeolocation();
     } else if (targetIcon.className === searchIconClassName) {
       searchForWeather();
@@ -222,7 +226,7 @@ const searchForWeather = () => {
     .then((response) => response.json())
     .then((data) => {
       if (data) {
-        weatherContainer.innerHTML = `In <em> ${cityName} </em>, <br/> Temperature is ${Math.round(
+        weatherContainer.innerHTML = `In <em class="weather-info"> ${cityName} </em>, <br/> Temperature is ${Math.round(
           data.main.temp - 273.15
         )}°C.<br/>`;
         weatherContainer.innerHTML += updateCheckboxWeatherInfo(data);
@@ -252,7 +256,7 @@ const getWeatherByGeolocation = () => {
           .then((response) => response.json())
           .then((data) => {
             if (data) {
-              weatherContainer.innerHTML = `In <em>your location</em>, <br/> Temperature is ${Math.round(
+              weatherContainer.innerHTML = `In <em class="weather-info">your location</em>, <br/> Temperature is ${Math.round(
                 data.main.temp - 273.15
               )}°C.<br/>`;
               weatherContainer.innerHTML += updateCheckboxWeatherInfo(data);
