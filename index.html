@@ -89,37 +89,23 @@
         <datalist id="cities"> </datalist>
         <button
           id="main-btn"
-          class="p-2 m-1 bg-gray-500 transform translate-y-1.5 hover:bg-gray-700 text-white rounded-full shadow-sm transition duration-10 ease-in-out inline-block"
+          class="mt-4 w-full bg-gray-500 hover:bg-gray-700 text-gray-100 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
           <i
             id="target-icon"
             class="geo-icon map marker alternate icon transform translate-x-0.5"
-          ></i>
-          <span class="btn-more inline sm:hidden"></span>
+          ></i
+          >Search
         </button>
-      </div>
-      <span class="hint py-8 text-gray-600 inline-block w-3/5"
-        >fetching the weather of your location may not be possible, depending on
-        your <em>device permissions</em>.</span
-      >
+      </form>
+      <span class="msg"></span>
     </div>
-    <div class="p-4">
-      <div
-        id="checkbox-container"
-        class="flex flex-col py-4 hidden sm:text-lg md:text-xl"
-      >
-        <label>
-          <input type="checkbox" id="humidity-checkbox" />&ThickSpace;Show
-          Humidity
-        </label>
-        <label>
-          <input type="checkbox" id="wind-checkbox" />&ThickSpace;Show Wind
-          Speed
-        </label>
-      </div>
+    <div class="mx-auto text-center px-1 container">
+      <ul
+        class="cities grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
+      ></ul>
     </div>
 
-    <div id="display-weather-info" class="mt-8 text-2xl"></div>
     <script src="dist/main.js"></script>
   </body>
 </html>
