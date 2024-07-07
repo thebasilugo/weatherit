@@ -1,11 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WeatherIt</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
     <!-- semantic ui cdn -->
     <link
       rel="stylesheet"
@@ -19,6 +17,7 @@
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css"
       rel="stylesheet"
     />
+    <!-- <link rel="stylesheet" href="style.css" /> -->
     <style>
       :root {
         --rainy-day: grey;
@@ -30,61 +29,60 @@
       @keyframes fadeIn {
         from {
           opacity: 0;
-          background-color: rgb(0, 255, 200);
+          background-color: #4b5563;
         }
         to {
           opacity: 1;
         }
       }
 
+      .del-city-btn {
+        position: absolute;
+        top: 0; /* Adjust as needed */
+        right: 0; /* Adjust as needed */
+        background: transparent;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        transform: translateY(-16px);
+      }
+
+      .del-city-btn .icon {
+        /* Styles for the icon */
+        color: #000; /* Example color */
+        font-size: 20px;
+        transform: translateX(1px);
+      }
+
+      /* * {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+          sans-serif;
+      } */
+
       .fade-in {
-        animation: fadeIn 0.9s ease-in-out;
-      }
-
-      body {
-        height: 100px;
-      }
-
-      em.weather-info {
-        font-weight: 700;
-        text-transform: capitalize;
-      }
-
-      #main-btn,
-      #location-btn,
-      #search-btn {
-        transition: none;
-      }
-
-      #main-btn:hover,
-      #location-btn:hover,
-      #search-btn:hover {
-        opacity: 0.8;
-      }
-
-      #main-btn:active,
-      #location-btn:active,
-      #search-btn:active {
-        opacity: 1;
+        animation: fadeIn 0.5s ease-in-out;
       }
 
       .hidden {
-        visibility: hidden;
+        opacity: 0;
       }
     </style>
   </head>
   <body
-    class="fade-in bg-blue-300 min-h-screen flex flex-col items-center justify-center"
+    class="fade-in flex flex-col items-center py-16 h-screen bg-slate-800 text-2xl max-w-screen-md mx-auto"
   >
-    <div class="text-center">
-      <h1 class="text-4xl mb-8 font-bold">WeatherIt!</h1>
-      <div class="">
+    <h1 class="my-2 text-4xl font-bold">WeatherIt!</h1>
+    <div class="min-w-xs mx-auto p-4 mb-4 rounded-lg shadow">
+      <form action="">
         <input
           type="text"
+          name=""
           id="city-input"
-          placeholder="Enter city name"
-          class="px-4 py-2 font-bold transform translate-y-2 border border-gray-300 rounded-md shadow-sm mb-4 sm:mb-4 sm:mr-4 text-xl"
+          class="w-full px-2 py-4 text-gray-700 bg-white border-b-2 border-gray-500 focus:border-gray-700 rounded-xs focus:outline-none"
+          placeholder="Search for a city"
           list="cities"
+          autofocus
         />
         <datalist id="cities"> </datalist>
         <button
