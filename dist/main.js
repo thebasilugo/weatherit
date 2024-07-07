@@ -1,167 +1,258 @@
 "use strict";
-
-// Selecting elements from the DOM
-const cityInput = document.querySelector("#city-input");
+const form = document.querySelector("form");
+const cityInput = document.querySelector("input");
+const datalist = document.querySelector("#cities");
 const mainBtn = document.querySelector("#main-btn");
 const targetIcon = document.querySelector("#target-icon");
-const searchIcon = document.querySelector(".search-icon");
 const geoIcon = document.querySelector(".geo-icon");
-const hintEl = document.querySelector(".hint");
-const datalist = document.querySelector("#cities");
-const checkboxContainer = document.querySelector("#checkbox-container");
-const humidityCheckbox = document.querySelector("#humidity-checkbox");
-const windCheckbox = document.querySelector("#wind-checkbox");
-const btnMore = document.querySelector(".btn-more");
-const weatherContainer = document.querySelector("#display-weather-info");
-
-// Icon class names for different states
+const searchIcon = document.querySelector(".search-icon");
+const msg = document.querySelector(".msg");
+const list = document.querySelector(".cities");
+const apiKey = "997948706e57a1379dfe78808a547951";
 const searchInfo = {
-  searchIconClassName: "search icon transform translate-x-0.5 search-icon",
+    searchIconClassName: "search icon transform translate-x-0.5 search-icon",
 };
 const geoInfo = {
-  geoIconClassName:
-    "map marker alternate icon transform translate-x-0.5 geo-icon",
+    geoIconClassName: "search icon transform translate-x-0.5 search-icon",
 };
 const geoIconClassName = geoInfo.geoIconClassName;
 const searchIconClassName = searchInfo.searchIconClassName;
-
-// Clear city input on page load
 window.onload = () => {
-  if (cityInput) {
-    cityInput.value = "";
-    checkIfCityInputIsEmpty();
-  }
+    if (cityInput) {
+        cityInput.value = "";
+        checkIfCityInputIsEmpty(cityInput, targetIcon);
+    }
 };
-
-// Check if the city input is empty and update UI accordingly
-const checkIfCityInputIsEmpty = () => {
-  if (cityInput.value.trim() === "") {
-    targetIcon.className = geoIconClassName;
-    targetIcon.id = "location-btn";
-    btnMore.innerHTML = "location";
-    hintEl.classList.remove("hidden");
-  } else {
-    targetIcon.className = searchIconClassName;
-    targetIcon.id = "search-btn";
-    btnMore.innerHTML = "search";
-    hintEl.classList.add("hidden");
-  }
+const checkIfCityInputIsEmpty = (cityInput, icon) => {
+    if (cityInput.value.trim() === "") {
+        icon.className = geoInfo.geoIconClassName;
+    }
+    else {
+        icon.className = searchInfo.searchIconClassName;
+    }
 };
-
-// Populate city names in datalist for autocomplete
+const hideErrorMsg = () => {
+    setTimeout(() => {
+        msg.classList.add("hidden");
+    }, 3000);
+};
 const cityNames = [
-  /* city names array */
+    "Tokyo",
+    "Delhi",
+    "Shanghai",
+    "Sao Paulo",
+    "Mumbai",
+    "Beijing",
+    "Cairo",
+    "Dhaka",
+    "Mexico City",
+    "Osaka",
+    "Karachi",
+    "Chongqing",
+    "Istanbul",
+    "Buenos Aires",
+    "Kolkata",
+    "Lagos",
+    "Rio de Janeiro",
+    "Tianjin",
+    "Kinshasa",
+    "Guangzhou",
+    "Los Angeles",
+    "Moscow",
+    "Shenzhen",
+    "Lahore",
+    "Bangalore",
+    "Jakarta",
+    "Chennai",
+    "Lima",
+    "New York",
+    "Bangkok",
+    "Hyderabad",
+    "Chengdu",
+    "Nanjing",
+    "Wuhan",
+    "Ho Chi Minh City",
+    "Hangzhou",
+    "Hong Kong",
+    "Ahmedabad",
+    "Kuala Lumpur",
+    "Pune",
+    "Riyadh",
+    "Santiago",
+    "Alexandria",
+    "Singapore",
+    "Johannesburg",
+    "Shijiazhuang",
+    "Seoul",
+    "Hanoi",
+    "Baghdad",
+    "Ankara",
+    "Toronto",
+    "Yangon",
+    "Qingdao",
+    "Rome",
+    "Houston",
+    "Bogota",
+    "Bangladesh",
+    "Changsha",
+    "Rangoon",
+    "Phoenix",
+    "Philadelphia",
+    "Nairobi",
+    "Hefei",
+    "Suzhou",
+    "Harbin",
+    "Dar es Salaam",
+    "Shantou",
+    "Dalian",
+    "Zhengzhou",
+    "Yangzhou",
+    "Jinan",
+    "Algiers",
+    "Chengde",
+    "Kabul",
+    "Havana",
+    "Casablanca",
+    "Athens",
+    "Cape Town",
+    "Kunming",
+    "Taibei",
+    "Jeddah",
+    "Shenyang",
+    "Surat",
+    "Abidjan",
+    "Jaipur",
+    "Guadalajara",
+    "Incheon",
+    "Baku",
+    "Pune",
+    "Sapporo",
+    "Tashkent",
+    "Izmir",
+    "Xiamen",
+    "Rawalpindi",
+    "Durban",
+    "Hyderabad",
+    "Kanpur",
+    "Nanjing",
+    "Addis Ababa",
+    "Nanning",
+    "Lucknow",
+    "Patna",
+    "Guayaquil",
+    "Salvador",
+    "Vadodara",
+    "Manila",
+    "Johor Bahru",
+    "San Antonio",
+    "Indore",
+    "Guatemala City",
 ];
 cityNames.forEach((city) => {
-  let option = document.createElement("option");
-  option.value = city;
-  if (datalist) datalist.appendChild(option);
+    let option = document.createElement("option");
+    option.value = city;
+    datalist === null || datalist === void 0 ? void 0 : datalist.appendChild(option);
 });
-
-// Event listener for city input changes
-cityInput.addEventListener("input", checkIfCityInputIsEmpty);
-
-// Show checkbox container
-const showCheckboxContainer = () => {
-  checkboxContainer.classList.remove("hidden");
-};
-
-// Determine action based on icon state and show weather info
-const iconCheckFn = () => {
-  showCheckboxContainer();
-  if (targetIcon.className === geoIconClassName) {
-    hintEl.classList.add("hidden");
-    getWeatherByGeolocation();
-  } else if (targetIcon.className === searchIconClassName) {
-    searchForWeather();
-  }
-};
-
-// Event listeners for icon and button clicks
-targetIcon.addEventListener("click", iconCheckFn);
-mainBtn.addEventListener("click", iconCheckFn);
-
-// Update weather info based on selected checkboxes
-const updateCheckboxWeatherInfo = (data) => {
-  let weatherInfo = "";
-  if (data && humidityCheckbox.checked) {
-    weatherInfo += "Humidity: " + data.main.humidity + "%<br/>";
-  }
-  if (data && windCheckbox.checked) {
-    weatherInfo += "Wind Speed: " + data.wind.speed + " m/s<br/>";
-  }
-  return weatherInfo;
-};
-
-// Event listeners for checkbox changes
-humidityCheckbox.addEventListener("change", fetchAndUpdateWeatherInfo);
-windCheckbox.addEventListener("change", fetchAndUpdateWeatherInfo);
-
-// Fetch and update weather info based on current icon state
-const fetchAndUpdateWeatherInfo = () => {
-  if (targetIcon.className === geoIconClassName) {
-    getWeatherByGeolocation();
-  } else if (targetIcon.className === searchIconClassName) {
-    searchForWeather();
-  }
-};
-
-// Search for weather using city name
-const searchForWeather = () => {
-  const cityName = cityInput.value;
-  fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=YOUR_API_KEY`
-  )
-    .then((response) => response.json())
-    .then((data) => {
-      if (data) {
-        weatherContainer.innerHTML =
-          `In <em class="weather-info"> ${cityName} </em>, <br/> Temperature is ${Math.round(
-            data.main.temp - 273.15
-          )}°C.<br/>` + updateCheckboxWeatherInfo(data);
-      } else {
-        console.error("No data received from API");
-      }
+cityInput === null || cityInput === void 0 ? void 0 : cityInput.addEventListener("input", () => checkIfCityInputIsEmpty(cityInput, targetIcon));
+form === null || form === void 0 ? void 0 : form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    form.reset();
+    cityInput === null || cityInput === void 0 ? void 0 : cityInput.focus();
+});
+const searchForWeather = (cityName) => {
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`;
+    fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+        console.log(`Temperature: ${data.temperature}, Description: ${data.description}`);
     })
-    .catch((error) => console.error("Error:", error));
+        .catch(() => {
+        msg === null || msg === void 0 ? void 0 : msg.classList.remove("hidden");
+        msg.innerHTML = `<em>${cityName}</em> is not a valid city.`;
+        hideErrorMsg();
+    });
 };
-
-// Event listener for pressing Enter in city input
-cityInput.addEventListener("keypress", (event) => {
-  if (event.key === "Enter") {
-    showCheckboxContainer();
-    searchForWeather();
-  }
-});
-
-// Get weather by geolocation
-const getWeatherByGeolocation = () => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        let lat = position.coords.latitude;
-        let lon = position.coords.longitude;
-        fetch(
-          `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=YOUR_API_KEY`
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            if (data) {
-              weatherContainer.innerHTML =
-                `In <em class="weather-info">your location</em>, <br/> Temperature is ${Math.round(
-                  data.main.temp - 273.15
-                )}°C.<br/>` + updateCheckboxWeatherInfo(data);
-            } else {
-              console.error("No data received from API");
+form === null || form === void 0 ? void 0 : form.addEventListener("submit", (e) => {
+    var _a, _b;
+    e.preventDefault();
+    let inputVal = cityInput.value;
+    const listItems = list === null || list === void 0 ? void 0 : list.querySelectorAll(".city");
+    if (listItems) {
+        const listItemsArray = Array.from(listItems);
+        if (listItemsArray.length > 0) {
+            const filteredArray = listItemsArray.filter((el) => {
+                var _a, _b, _c, _d;
+                let content = "";
+                if (inputVal.includes(",")) {
+                    if (inputVal.split(",")[1].length > 2) {
+                        inputVal = inputVal.split(",")[0];
+                        content = (_b = (_a = el
+                            .querySelector(".city-name span")) === null || _a === void 0 ? void 0 : _a.textContent) === null || _b === void 0 ? void 0 : _b.toLowerCase();
+                    }
+                    else {
+                        content = (_d = (_c = el
+                            .querySelector(".city-name")) === null || _c === void 0 ? void 0 : _c.dataset.name) === null || _d === void 0 ? void 0 : _d.toLowerCase();
+                    }
+                }
+                else {
+                    content = el === null || el === void 0 ? void 0 : el.querySelector(".city-name span").textContent.toLowerCase();
+                }
+                return content == inputVal.toLowerCase();
+            });
+            if (filteredArray.length > 0) {
+                msg === null || msg === void 0 ? void 0 : msg.classList.remove("hidden");
+                msg.innerHTML = `<em>${(_b = (_a = filteredArray[0]) === null || _a === void 0 ? void 0 : _a.querySelector(".city-name span")) === null || _b === void 0 ? void 0 : _b.textContent}</em> already exists in the list below.`;
+                hideErrorMsg();
+                form.reset();
+                cityInput === null || cityInput === void 0 ? void 0 : cityInput.focus();
+                return;
             }
-          })
-          .catch((error) => console.error("Error:", error));
-      },
-      (error) => {
-        console.error("Error occurred. Code: " + error.code);
-      }
-    );
-  } else {
-    console.log("Geolocation is not supported by this browser.");
-  }
-};
+        }
+    }
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${inputVal}&appid=${apiKey}&units=metric`;
+    fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+        const { main, name, sys, weather } = data;
+        const icon = `https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${weather[0]["icon"]}.svg`;
+        const li = document.createElement("li");
+        li.classList.add("city", "border-2", "border-gray-700", "py-4", "m-1", "rounded-xl", "cities-container", "hover:bg-gray-200");
+        const markup = `
+        <div class="relative">
+          <button class="del-city-btn" onclick="deleteCity(this)">
+            <i class="x icon"></i>
+          </button>
+          <h2 class="city-name" 
+          data-name="${name},${sys.country}">
+            <span>${name}, ${sys.country}</span>
+          </h2>
+          <div class="city-temp font-extrabold text-4xl pt-4">
+            ${Math.round(main.temp)}
+            <sup>°C</sup>
+          </div>
+          <figure class="flex flex-col items-center justify-center text-center">
+            <img class="city-icon" 
+            src="${icon}" 
+            alt="${weather[0]["description"]}">
+            <figcaption>
+              ${weather[0]["description"]}
+            </figcaption>
+          </figure>
+        </div>
+      `;
+        li.innerHTML = markup;
+        list === null || list === void 0 ? void 0 : list.appendChild(li);
+    })
+        .catch(() => {
+        msg === null || msg === void 0 ? void 0 : msg.classList.remove("hidden");
+        msg.innerHTML = `<em>${inputVal}</em> is not a valid city.`;
+        hideErrorMsg();
+    });
+    msg.textContent = "";
+    form.reset();
+    checkIfCityInputIsEmpty(cityInput, targetIcon);
+});
+function deleteCity(button) {
+    const cityItem = button.closest(".city");
+    cityItem === null || cityItem === void 0 ? void 0 : cityItem.remove();
+}
