@@ -232,7 +232,6 @@ form === null || form === void 0 ? void 0 : form.addEventListener("submit", (e) 
     });
     msg.textContent = "";
     form.reset();
-    checkIfCityInputIsEmpty(cityInput, targetIcon);
 });
 function deleteCity(button) {
     const cityItem = button.closest(".city");
