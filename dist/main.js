@@ -155,24 +155,6 @@ cityNames.forEach((city) => {
 });
 cityInput === null || cityInput === void 0 ? void 0 : cityInput.addEventListener("input", () => checkIfCityInputIsEmpty(cityInput, targetIcon));
 form === null || form === void 0 ? void 0 : form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    form.reset();
-    cityInput === null || cityInput === void 0 ? void 0 : cityInput.focus();
-});
-const searchForWeather = (cityName) => {
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`;
-    fetch(url)
-        .then((response) => response.json())
-        .then((data) => {
-        console.log(`Temperature: ${data.temperature}, Description: ${data.description}`);
-    })
-        .catch(() => {
-        msg === null || msg === void 0 ? void 0 : msg.classList.remove("hidden");
-        msg.innerHTML = `<em>${cityName}</em> is not a valid city.`;
-        hideErrorMsg();
-    });
-};
-form === null || form === void 0 ? void 0 : form.addEventListener("submit", (e) => {
     var _a, _b;
     e.preventDefault();
     let inputVal = cityInput.value;
