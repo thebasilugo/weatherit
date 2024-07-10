@@ -198,7 +198,7 @@ form === null || form === void 0 ? void 0 : form.addEventListener("submit", (e) 
         const { main, name, sys, weather } = data;
         const icon = `https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${weather[0]["icon"]}.svg`;
         const li = document.createElement("li");
-        li.classList.add("city", "border-2", "border-gray-700", "py-4", "m-1", "rounded-xl", "cities-container", "hover:bg-gray-200");
+        li.classList.add("city", "border-2", "border-gray-700", "py-4", "m-1", "rounded-xl", "cities-container", "hover:bg-gray-100", "w-2/3", "md:w-auto", "mx-auto", "md:mx-0");
         const markup = `
         <div class="relative">
           <button class="del-city-btn" onclick="deleteCity(this)">
