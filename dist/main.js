@@ -26,8 +26,7 @@ window.onload = () => {
 const checkIfCityInputIsEmpty = (cityInput, icon) => {
     if (cityInput.value.trim() === "") {
         icon.className = geoInfo.geoIconClassName;
-    }
-    else {
+  } else {
         icon.className = searchInfo.searchIconClassName;
     }
 };
