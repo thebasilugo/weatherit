@@ -150,7 +150,9 @@ const cityNames = [
 cityNames.forEach((city) => {
     let option = document.createElement("option");
     option.value = city;
-    datalist === null || datalist === void 0 ? void 0 : datalist.appendChild(option);
+  datalist === null || datalist === void 0
+    ? void 0
+    : datalist.appendChild(option);
 });
 cityInput === null || cityInput === void 0 ? void 0 : cityInput.addEventListener("input", () => checkIfCityInputIsEmpty(cityInput, targetIcon));
 form === null || form === void 0 ? void 0 : form.addEventListener("submit", (e) => {
